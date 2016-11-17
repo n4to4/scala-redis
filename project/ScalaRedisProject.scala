@@ -34,9 +34,9 @@ object ScalaRedisProject extends Build
         "com.typesafe.akka" %% "akka-actor" % "2.3.6"
     },
     parallelExecution in Test := false,
-    publishTo <<= version { (v: String) => 
+    publishTo := {
       val nexus = "https://oss.sonatype.org/" 
-      if (v.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus + "content/repositories/snapshots")
+      if (version.value.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus + "content/repositories/snapshots")
       else Some("releases" at nexus + "service/local/staging/deploy/maven2") 
     },
     credentials += Credentials(Path.userHome / ".sbt" / "sonatype.credentials"),
@@ -63,7 +63,7 @@ object ScalaRedisProject extends Build
           <url>http://debasishg.blogspot.com</url>
         </developer>
       </developers>),
-    unmanagedResources in Compile <+= baseDirectory map { _ / "LICENSE" }
+    unmanagedResources in Compile += baseDirectory.value / "LICENSE"
   )
 }
 
